@@ -1,0 +1,48 @@
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:httpj="http://cxf.apache.org/transports/http-jetty/configuration"
+	xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd
+             http://camel.apache.org/schema/blueprint http://camel.apache.org/schema/blueprint/camel-blueprint.xsd
+                         http://cxf.apache.org/transports/http-jetty/configuration
+            http://cxf.apache.org/schemas/configuration/http-jetty.xsd">
+
+	<!-- This is the setup of a single MicroWebserviceManager which can handle any number of MicroWebservices.  One might
+	set up multiple managers if the configuration details were highly unique.  In that case service filtering would
+	be added to the listener. -->
+
+	<bean id="microserviceManager" class="org.enjekt.osgi.microserver.impl.MicroWebserviceManager" init-method="init"
+		destroy-method="destroy">
+		<property name="configuration" ref="microserviceServerConfiguration" />
+	</bean>
+
+	<!-- Listen for any and all MicroWebservice events and notify the manager.  Because we are not filtering this manager
+	will pick up all MicroWebservie events.  If on wanted to set up different instances for things like warehouse,
+	sales, inventory, etc. then the listeners and MicroserviceRegistrations could specify those as service properties -->
+	<reference-list id="microserviceListener" interface="org.enjekt.osgi.microserver.api.MicroWebservice">
+		<reference-listener bind-method="register" unbind-method="unregister">
+			<ref component-id="microserviceManager" />
+		</reference-listener>
+	</reference-list>
+
+	<!-- The Microserver configuration associated witht the manager.  We are using a commmon address, some logging
+	interceptors and adding a default of badgerfish for JSON.  If one of the client bundles were to specify a different
+	JSONProvider (such as dropping the root element) it would be used preferrentially. -->
+	<bean id="microserviceServerConfiguration" class="org.enjekt.osgi.microserver.impl.MicroWebserviceConfiguration">
+		<property name="baseAddress" value="${baseAddress}" />
+
+		<property name="addOut">
+			<bean class="org.apache.cxf.interceptor.LoggingOutInterceptor">
+				<property name="prettyLogging" value="true" />
+			</bean>
+		</property>
+		<property name="addIn">
+			<bean class="org.apache.cxf.interceptor.LoggingInInterceptor">
+				<property name="prettyLogging" value="true" />
+			</bean>
+		</property>
+		<property name="addProvider">
+			<bean class="org.apache.cxf.jaxrs.provider.json.JSONProvider">
+				<property name="convention" value="badgerfish" />
+			</bean>
+		</property>
+	</bean>
+</blueprint>

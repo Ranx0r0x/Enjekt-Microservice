@@ -1,0 +1,36 @@
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd
+             http://camel.apache.org/schema/blueprint http://camel.apache.org/schema/blueprint/camel-blueprint.xsd">
+
+<!-- This test bundle starts up and registers a service interface of MicroWebservice.  If a manager is listening
+for those events then it is picked up and registered against the standard address specified with the standard
+interecptors and providers.  Additionally the relative URIs specified by this bundle are used by the manager/container
+to determine where the endpoint URI will actually be. -->
+
+	<bean id="executor" class="org.enjekt.osgi.echo.internal.impl.ExecutorImpl" />
+	<bean id="validator" class="org.enjekt.osgi.echo.internal.impl.ValidatorImpl" />
+	<bean id="transformer" class="org.enjekt.osgi.echo.internal.impl.TransformerImpl" />
+
+
+	<bean id="impl" class="org.enjekt.osgi.echo.internal.impl.EchoTestImpl">
+		<property name="executor" ref="executor" />
+		<property name="validator" ref="validator" />
+		<property name="transformer" ref="transformer" />
+	</bean>
+	<service ref="impl" interface="org.enjekt.osgi.api.echo.EchoService" />
+
+	<service interface="org.enjekt.osgi.microserver.api.MicroWebservice">
+		<bean class="org.enjekt.osgi.microserver.impl.MicroWebserviceRegistration">
+			<argument value="org.enjekt.osgi.api.echo.EchoService" />
+			<argument ref="impl" />
+			<property name="restRelativeURI" value="/resources/echo" />
+			<property name="soapRelativeURI" value="/services/echo" />
+		</bean>
+	</service>
+
+	<camelContext xmlns="http://camel.apache.org/schema/blueprint">
+	<!-- Camel would likely be used with such services for queues, transforms, etc.
+	In this case it is here by simple necessity to make the CamelBlueprintTestSupport work. -->
+
+	</camelContext>
+</blueprint>
