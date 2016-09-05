@@ -1,4 +1,4 @@
-package org.enjekt.osgi.models.impl;
+package org.enjekt.osgi.models;
 
 import javax.xml.bind.annotation.XmlRootElement;
 

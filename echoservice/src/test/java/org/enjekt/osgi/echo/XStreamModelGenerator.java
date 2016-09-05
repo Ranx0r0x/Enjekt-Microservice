@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.enjekt.osgi.models.impl.EchoResponseMessage;
+import org.enjekt.osgi.models.EchoResponseMessage;
 
 import com.thoughtworks.xstream.XStream;
 

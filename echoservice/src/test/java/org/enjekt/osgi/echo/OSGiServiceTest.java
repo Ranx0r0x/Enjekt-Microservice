@@ -8,8 +8,8 @@
 package org.enjekt.osgi.echo;
 
 import org.enjekt.osgi.echo.api.EchoService;
-import org.enjekt.osgi.models.impl.EchoRequestMessage;
-import org.enjekt.osgi.models.impl.EchoResponseMessage;
+import org.enjekt.osgi.models.EchoRequestMessage;
+import org.enjekt.osgi.models.EchoResponseMessage;
 import org.junit.Test;
 
 public class OSGiServiceTest extends BaseTest {
@@ -23,7 +23,6 @@ public class OSGiServiceTest extends BaseTest {
 		String response = service.echoString("hello");
 		assertNotNull(response);
 
-		System.out.println(response);
 
 	}
 
@@ -35,7 +34,7 @@ public class OSGiServiceTest extends BaseTest {
 		logger.info(response);
 		assertNotNull(response);
 
-		System.out.println("Response EchoObject: " + response);
+
 	}
 
 }

@@ -2,8 +2,8 @@ package org.enjekt.osgi.echo;
 
 import org.enjekt.osgi.echo.api.EchoService;
 import org.enjekt.osgi.microserver.impl.WSClientFactory;
-import org.enjekt.osgi.models.impl.EchoRequestMessage;
-import org.enjekt.osgi.models.impl.EchoResponseMessage;
+import org.enjekt.osgi.models.EchoRequestMessage;
+import org.enjekt.osgi.models.EchoResponseMessage;
 import org.junit.Test;
 
 /**

@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 
@@ -11,6 +12,7 @@
 	<properties>
 		<!-- By defalt we do not export. -->
 		<private.package>${project.groupId}.${project.artifactId}.internal*</private.package>
+		<public.package>${project.groupId}.${project.artifactId}*</public.package>
 		<skip.attachment>true</skip.attachment>
 
 		<!-- Plugin Versions -->
@@ -29,7 +31,9 @@
 		<target.source.version>1.8</target.source.version>
 
 		<cxf-codegen-plugin-version>3.1.4</cxf-codegen-plugin-version>
-		<bom.version>1.0.0-SNAPSHOT</bom.version>
+		<compile.source.version>1.8</compile.source.version>
+		<target.source.version>1.8</target.source.version>
+		<jboss.fuse.bom.version>6.2.0.redhat-133</jboss.fuse.bom.version>
 	</properties>
 
 
@@ -39,18 +43,41 @@
 
 		<dependencies>
 
-			<!-- Import Dependency Management via BOM -->
+			<!-- Import Fuse Dependency Management via BOM -->
 			<dependency>
-				<groupId>org.enjekt.osgi</groupId>
-				<artifactId>bom</artifactId>
-				<version>${bom.version}</version>
+				<groupId>org.jboss.fuse.bom</groupId>
+				<artifactId>jboss-fuse-parent</artifactId>
+				<version>${jboss.fuse.bom.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
 
+			<dependency>
+				<groupId>com.thoughtworks.xstream</groupId>
+				<artifactId>xstream</artifactId>
+				<version>1.4.8</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.camel</groupId>
+				<artifactId>camel-test-blueprint</artifactId>
+				<version>2.15.1.redhat-620133</version>
+				<scope>test</scope>
+				<exclusions>
+					<exclusion>
+						<groupId>org.apache.felix</groupId>
+						<artifactId>org.apache.felix.fileinstall</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>biz.aQute</groupId>
+						<artifactId>bndlib</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<!-- <dependency> <groupId>org.apache.camel</groupId> <artifactId>camel-test-blueprint</artifactId> 
+				<version>2.15.5</version> <scope>test</scope> </dependency> -->
+
 		</dependencies>
-
-
 	</dependencyManagement>
 
 	<build>
@@ -154,7 +181,7 @@
 					<instructions>
 						<Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
 						<Import-Package>*</Import-Package>
-						<DynamicImport-Package>*</DynamicImport-Package>
+						<Export-Package>!${private.package};${public.package}</Export-Package>
 						<Private-Package>${private.package}</Private-Package>
 						<excludeDependencies>*</excludeDependencies>
 					</instructions>
@@ -169,5 +196,5 @@
 
 	</build>
 
-	
+
 </project>

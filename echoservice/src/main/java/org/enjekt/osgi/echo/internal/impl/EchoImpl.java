@@ -17,8 +17,8 @@ package org.enjekt.osgi.echo.internal.impl;
 
 
 import org.enjekt.osgi.echo.api.EchoService;
-import org.enjekt.osgi.models.impl.EchoRequestMessage;
-import org.enjekt.osgi.models.impl.EchoResponseMessage;
+import org.enjekt.osgi.models.EchoRequestMessage;
+import org.enjekt.osgi.models.EchoResponseMessage;
 
 /**
  * The Class EchoTestImpl is a simple implementation class for an echo service.  In this
