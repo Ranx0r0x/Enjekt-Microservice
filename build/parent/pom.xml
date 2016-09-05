@@ -155,7 +155,6 @@
 						<Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
 						<Import-Package>*</Import-Package>
 						<DynamicImport-Package>*</DynamicImport-Package>
-						<Export-Package>${project.groupId}.${project.artifactId}.*</Export-Package>
 						<Private-Package>${private.package}</Private-Package>
 						<excludeDependencies>*</excludeDependencies>
 					</instructions>

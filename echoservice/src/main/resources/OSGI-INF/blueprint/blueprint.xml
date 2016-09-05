@@ -7,21 +7,13 @@ for those events then it is picked up and registered against the standard addres
 interecptors and providers.  Additionally the relative URIs specified by this bundle are used by the manager/container
 to determine where the endpoint URI will actually be. -->
 
-	<bean id="executor" class="org.enjekt.osgi.echo.internal.impl.ExecutorImpl" />
-	<bean id="validator" class="org.enjekt.osgi.echo.internal.impl.ValidatorImpl" />
-	<bean id="transformer" class="org.enjekt.osgi.echo.internal.impl.TransformerImpl" />
-
-
-	<bean id="impl" class="org.enjekt.osgi.echo.internal.impl.EchoTestImpl">
-		<property name="executor" ref="executor" />
-		<property name="validator" ref="validator" />
-		<property name="transformer" ref="transformer" />
+	<bean id="impl" class="org.enjekt.osgi.echo.internal.impl.EchoImpl">
 	</bean>
-	<service ref="impl" interface="org.enjekt.osgi.api.echo.EchoService" />
+	<service ref="impl" interface="org.enjekt.osgi.echo.api.EchoService" />
 
 	<service interface="org.enjekt.osgi.microserver.api.MicroWebservice">
 		<bean class="org.enjekt.osgi.microserver.impl.MicroWebserviceRegistration">
-			<argument value="org.enjekt.osgi.api.echo.EchoService" />
+			<argument value="org.enjekt.osgi.echo.api.EchoService" />
 			<argument ref="impl" />
 			<property name="restRelativeURI" value="/resources/echo" />
 			<property name="soapRelativeURI" value="/services/echo" />

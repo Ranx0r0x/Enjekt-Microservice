@@ -1,6 +1,6 @@
 package org.enjekt.osgi.echo;
 
-import org.enjekt.osgi.api.echo.EchoService;
+import org.enjekt.osgi.echo.api.EchoService;
 import org.enjekt.osgi.microserver.impl.WSClientFactory;
 import org.enjekt.osgi.models.impl.EchoRequestMessage;
 import org.enjekt.osgi.models.impl.EchoResponseMessage;
@@ -18,7 +18,7 @@ public class SoapServiceTest extends BaseTest{
 
 		String echo = wsClient.echoString("hello");
 		assertNotNull(echo);
-		assertEquals("Echoing: hello", echo);
+		assertEquals("Echo:hello", echo);
 		logger.info(echo);
 
 	}
@@ -26,12 +26,12 @@ public class SoapServiceTest extends BaseTest{
 	@Test
 	public void testEchoObject() throws Exception {
 		EchoService wsClient = WSClientFactory.create("http://localhost:9001/services/echo",EchoService.class);
-		EchoRequestMessage request = new EchoRequestMessage("A message to echo.");
+		EchoRequestMessage request = new EchoRequestMessage("hello");
 	
 		EchoResponseMessage echo = wsClient.echoObject(request);
 		assertNotNull(echo);
+		assertEquals("Echo:hello", echo.getEchoResponse());
 
-		logger.info(echo.getEchoResponse());
 
 	}
 

@@ -13,7 +13,7 @@
 		<module>bom</module>
 		<module>parent</module>
 		<module>../models</module>
-		<module>../api</module>
+		
 		<module>../microserver</module>
 		<module>../microserverboot</module>
 		<module>../echoservice</module>

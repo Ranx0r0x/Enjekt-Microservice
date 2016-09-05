@@ -7,7 +7,7 @@
  */
 package org.enjekt.osgi.echo;
 
-import org.enjekt.osgi.api.echo.EchoService;
+import org.enjekt.osgi.echo.api.EchoService;
 import org.enjekt.osgi.models.impl.EchoRequestMessage;
 import org.enjekt.osgi.models.impl.EchoResponseMessage;
 import org.junit.Test;
